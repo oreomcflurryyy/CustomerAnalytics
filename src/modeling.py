@@ -7,6 +7,7 @@ from sklearn.metrics import (
     confusion_matrix,
     roc_auc_score
 )
+from xgboost import XGBClassifier
 
 def train_logistic_regression(
     X_train,
@@ -38,6 +39,25 @@ def train_random_forest(X_train, y_train):
         max_depth=10,
         random_state=42,
         n_jobs=-1
+    )
+
+    model.fit(X_train, y_train)
+
+    return model
+
+def train_xgboost(X_train, y_train):
+    """
+    Train an XGBoost classifier.
+    """
+
+    model = XGBClassifier(
+        n_estimators=300,
+        learning_rate=0.05,
+        max_depth=5,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        random_state=42,
+        eval_metric="logloss"
     )
 
     model.fit(X_train, y_train)

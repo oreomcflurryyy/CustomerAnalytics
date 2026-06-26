@@ -86,17 +86,40 @@ def build_preprocessor(X):
 
 def preprocess_data(preprocessor, X_train, X_test):
     """
-    Fit the preprocessor on the training data and transform both
-    training and testing datasets.
+    Fit the preprocessing pipeline and transform the data.
+    Returns transformed data along with feature names.
     """
 
     X_train_processed = preprocessor.fit_transform(X_train)
 
     X_test_processed = preprocessor.transform(X_test)
 
+    # Numerical columns
+    numeric_features = preprocessor.transformers_[0][2]
+
+    # One-hot encoded categorical columns
+    categorical_features = (
+        preprocessor
+        .named_transformers_["cat"]
+        .get_feature_names_out(
+            preprocessor.transformers_[1][2]
+        )
+    )
+
+    feature_names = (
+        list(numeric_features)
+        + list(categorical_features)
+    )
+
     print("\nPreprocessing Complete!")
 
-    print(f"Training Shape : {X_train_processed.shape}")
-    print(f"Testing Shape  : {X_test_processed.shape}")
+    print("Training Shape :", X_train_processed.shape)
+    print("Testing Shape  :", X_test_processed.shape)
 
-    return X_train_processed, X_test_processed
+    print("\nTotal Features:", len(feature_names))
+
+    return (
+        X_train_processed,
+        X_test_processed,
+        feature_names
+    )

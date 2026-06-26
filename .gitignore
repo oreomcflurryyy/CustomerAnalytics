@@ -1,11 +1,23 @@
-venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
 
-models/
-outputs/
-reports/
+# Virtual Environment
+venv/
+.env
 
+# Jupyter
 .ipynb_checkpoints/
 
+# macOS
 .DS_Store
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Temporary
+*.tmp
